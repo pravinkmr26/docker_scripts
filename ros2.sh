@@ -1,0 +1,1 @@
+docker run --name ros2 --rm -it -v $HOME/com:$HOME/com osrf/ros:humble-desktop-full-jammy bash

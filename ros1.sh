@@ -1,0 +1,1 @@
+docker run --rm --name ros -it --net=host -v $HOME/com:$HOME/com ros_melodic_dev:latest bash

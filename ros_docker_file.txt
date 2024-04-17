@@ -1,0 +1,4 @@
+apt-get update && apt-get install python3-pip
+
+
+roslaunch rtabmap_ros rtabmap.launch odom_topic:=/carla/ego_vehicle/odometry rgb_topic:=/carla/ego_vehicle/rgb_front/image depth_topic:=/carla/ego_vehicle/depth_front/image camera_info_topic:=/carla/ego_vehicle/rgb_front/camera_info depth_camera_info_topic:=/carla/ego_vehicle/depth_front/camera_info
