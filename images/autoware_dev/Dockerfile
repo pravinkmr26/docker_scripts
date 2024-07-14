@@ -22,7 +22,8 @@
 #     libomp-dev \
 #     ros-humble-zmqpp-vendor
 
-FROM ghcr.io/autowarefoundation/autoware-universe:humble-latest-cuda
+#FROM ghcr.io/autowarefoundation/autoware-universe:humble-latest-cuda
+FROM ghcr.io/autowarefoundation/autoware-openadk:latest-devel-cuda
 
 RUN apt-get update && apt-get install -y ros-humble-generate-parameter-library \ 
     ros-humble-ament-cmake-clang-format \ 
@@ -45,4 +46,14 @@ RUN pip3 install -U xmlschema yamale transforms3d nuscenes-devkit
 RUN apt-get update && apt-get install -y gedit
 
 RUN wget https://github.com/autowarefoundation/autoware-launch-gui/releases/download/v1.0.3/autoware-launch-gui_1.0.3_amd64.deb -O ~/autoware-launch-gui.deb 
-RUN sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-0 && dpkg -i ~/autoware-launch-gui.deb
+RUN apt-get update && apt-get install -y libwebkit2gtk-4.1-0 && dpkg -i ~/autoware-launch-gui.deb
+
+RUN apt-get update && apt-get upgrade -y
+
+RUN apt-get install -y ros-humble-lanelet2 ros-humble-google-benchmark-vendor libglfw3-dev
+
+RUN pip3 install -U pydantic
+
+COPY "script.sh" "/root/startup.sh"
+
+RUN echo 'source /root/startup.sh' >> /root/.bashrc

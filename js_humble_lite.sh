@@ -1,6 +1,6 @@
-image_name="autoware"
-tag=dev
-container_name="cont-${image_name}-${tag}"
+image_name="humble"
+tag=lite
+container_name="cont-humble-lite"
 
 if [ "$(docker ps -a --filter name=${container_name} --filter status=running --format {{.Names}})" = ${container_name} ]; then
     echo "Container already running! attaching"
@@ -23,17 +23,12 @@ else
     -e QT_X11_NO_MITSHM=1 \
     --net=host \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -v /home/pravinkumar/com:/home/pravinkumar/com  \
-    -v /home/pravinkumar/autoware_map:/home/pravinkumar/autoware_map  \
-    -v /home/pravinkumar/apps_:/home/pravinkumar/apps_ \
+    --shm-size=1gb \
     -v $XAUTHORITY:$XAUTHORITY \
+    -v $HOME/com:$HOME/com \
     -it --gpus 'all,"capabilities=graphics,utility,display,video,compute"' \
     $image_name:$tag bash
 fi
 
-# 
-#--privileged \
-#--shm-size=1gb \
+
 # -v home_drive_humble:/root \
-# -v autoware_home_drive:/root \
-#-v autoware-open-adk:/root \

@@ -1,4 +1,4 @@
-image_name="autoware"
+image_name="gaz"
 tag=dev
 container_name="cont-${image_name}-${tag}"
 
@@ -10,7 +10,7 @@ elif [ "$(docker ps -a --filter name=${container_name} --format {{.Names}})" = $
     docker start ${container_name}
     docker exec -it ${container_name} bash
 else
-    echo "Creating container!"
+    echo "Creating container! ${container_name}"
     docker run --name ${container_name} \
     --rm \
     --privileged \
@@ -20,20 +20,18 @@ else
     -e SDL_VIDEODRIVER=x11 \
     -e DISPLAY=$DISPLAY \
     -e XAUTHORITY=$XAUTHORITY \
+    -e TERM  \
     -e QT_X11_NO_MITSHM=1 \
     --net=host \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -v /home/pravinkumar/com:/home/pravinkumar/com  \
-    -v /home/pravinkumar/autoware_map:/home/pravinkumar/autoware_map  \
-    -v /home/pravinkumar/apps_:/home/pravinkumar/apps_ \
+    --shm-size=1gb \
     -v $XAUTHORITY:$XAUTHORITY \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v /home/pravinkumar/com/gz_repo:/home/pravinkumar/com/gz_repo \
+    -v /home/pravinkumar/com/gz_repo:/ws \
     -it --gpus 'all,"capabilities=graphics,utility,display,video,compute"' \
     $image_name:$tag bash
 fi
 
-# 
-#--privileged \
-#--shm-size=1gb \
+
 # -v home_drive_humble:/root \
-# -v autoware_home_drive:/root \
-#-v autoware-open-adk:/root \
